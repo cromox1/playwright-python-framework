@@ -1,0 +1,28 @@
+playwright-python-framework/
+│
+├── .github/
+│   └── workflows/
+│       └── playwright.yml
+│
+├── pages/
+│   ├── login_page.py
+│   └── home_page.py
+│
+├── tests/
+│   ├── test_login.py
+│   ├── test_search.py
+│   └── test_invalid_login.py
+│
+├── utils/
+│   ├── config.py
+│   └── logger.py
+│
+├── data/
+│   └── users.json
+│
+├── screenshots/
+│
+├── playwright.config.py
+├── requirements.txt
+├── README.md
+└── .gitignore
