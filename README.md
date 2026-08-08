@@ -32,18 +32,40 @@ playwright-python-framework/
 ├── .github/
 │   └── workflows/
 │       └── playwright.yml
+│ 
+├── app/
+│   ├── app.py
+│   ├── database.py
+│   ├── models.py
+│   ├── templates/
+│   │   ├── login.html
+│   │   └── users.html
+│   └── static/
+│       └── style.css
 │
 ├── data/
 │   └── users.json
+├── models/
+│   └── user.py
 │
 ├── pages/
 │   ├── login_page.py
 │   └── home_page.py
 │
+├── api/
+│   ├── users_api.py
+│   └── auth_api.py
+│
 ├── tests/
-│   ├── test_login.py
-│   ├── test_invalid_login.py
-│   └── test_search.py
+│   ├── ui/
+│   │   ├── test_login.py
+│   │   ├── test_invalid_login.py
+│   │   └── test_search.py
+│   │
+│   └── api/
+│       ├── test_users_api.py
+│       ├── test_login_api.py
+│       └── test_posts_api.py
 │
 ├── utils/
 │   ├── config.py
@@ -53,6 +75,8 @@ playwright-python-framework/
 ├── screenshots/
 ├── videos/
 ├── traces/
+│
+├── report/
 │
 ├── conftest.py
 ├── requirements.txt
