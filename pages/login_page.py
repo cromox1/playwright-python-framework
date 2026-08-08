@@ -15,9 +15,6 @@ class LoginPage:
         self.page.goto(f"{BASE_URL}/login")
 
     def login(self,loginuser,pswduser):
-        # self.page.fill("#username",user)
-        # self.page.fill("#password",password)
-        # self.page.click("button[type='submit']")
         self.username.fill(loginuser)
         self.password.fill(pswduser)
         self.login_button.click()

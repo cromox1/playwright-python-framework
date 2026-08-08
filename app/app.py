@@ -167,6 +167,25 @@ def delete_user(user_id):
     }), 200
 
 
+@app.route("/api/users/<int:user_id>", methods=["GET"])
+def get_user(user_id):
+
+    user = User.query.get(user_id)
+
+    if not user:
+        return jsonify({
+            "message": "User not found"
+        }), 404
+
+    return jsonify(
+        {
+            "id": user.id,
+            "username": user.username,
+            "email": user.email
+        }
+    ), 200
+
+
 if __name__ == "__main__":
 
     with app.app_context():

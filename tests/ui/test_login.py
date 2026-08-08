@@ -14,3 +14,8 @@ def test_valid_login(page):
     users_page = UsersPage(page)
     users_page.verify_page_loaded()
     users_page.verify_user_visible(user_valid.username)
+
+def test_login(page):
+    login_page = LoginPage(page)
+    login_page.open()
+    assert "Google" in page.title()

@@ -16,23 +16,33 @@ def api_request():
 def page(request):
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
-        context = browser.new_context(
-            record_video_dir="videos"
-        )
-        context.tracing.start(
-            screenshots=True,
-            snapshots=True,
-            sources=True
-        )
-        # page = browser.new_page()
+        context = browser.new_context(record_video_dir="videos/")
+        context.tracing.start(screenshots=True, snapshots=True, sources=True)
         page = context.new_page()
         yield page
         # Save the trace
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         trace_name = f"traces/{request.node.name}_{timestamp}.zip"
-        context.tracing.stop(path=trace_name)
+        if request.node.rep_call.failed:
+            os.makedirs("traces", exist_ok=True)
+            context.tracing.stop(path=trace_name)
+            print(f"## Trace saved: {trace_name}")
+        else:
+            context.tracing.stop()
+            print(f"## Trace NOT saved")
+        # Video
+        video = page.video
         # Then close context
         context.close()
+        # Remove video if NOT Failed
+        if video and not request.node.rep_call.failed:
+            video.delete()
+        elif video and request.node.rep_call.failed:
+            old_path = video.path()
+            new_name = f"{request.node.name}_{timestamp}.webm"
+            new_path = os.path.join("videos", new_name)
+            os.rename(old_path, new_path)
+            print(f"## Video saved: {new_path}")
         # Finally close browser
         browser.close()
 
@@ -43,47 +53,32 @@ def monitor_page(page):
     console_errors = []
     http_errors = []
 
-    page.on("pageerror",
-            lambda e: js_errors.append(str(e)))
-
-    page.on("console",
-            lambda m: console_errors.append(m.text)
-            if m.type == "error" else None)
-
-    page.on("response",
-            lambda r: http_errors.append(
-                f"{r.status} {r.url}"
-            ) if r.status >= 400 else None)
+    page.on("pageerror", lambda e: js_errors.append(str(e)))
+    page.on("console", lambda m: console_errors.append(m.text) if m.type == "error" else None)
+    page.on("response", lambda r: http_errors.append(f"{r.status} {r.url}") if r.status >= 400 else None)
 
     yield page
 
-    assert not js_errors, \
-        f"JavaScript errors:\n{js_errors}"
-
-    # assert not console_errors, \
-    #     f"Console errors:\n{console_errors}"
-
-    assert not http_errors, \
-        f"HTTP errors:\n{http_errors}"
+    assert not js_errors, f"JavaScript errors:\n{js_errors}"
+    assert not console_errors, f"Console errors:\n{console_errors}"
+    assert not http_errors, f"HTTP errors:\n{http_errors}"
 
 
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item, call):
     outcome = yield
     report = outcome.get_result()
+    setattr(item, f"rep_{report.when}", report)
     if report.when == "call" and report.failed:
         page = item.funcargs.get("page")
         if page:
             os.makedirs("screenshots", exist_ok=True)
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             filename = f"screenshots/{item.name}_{timestamp}.png"
-            page.screenshot(
-                path=filename,
-                full_page=True
-            )
-            print(f"\nScreenshot saved: {filename}")
+            page.screenshot(path=filename, full_page=True)
+            print(f"\n## Screenshot saved: {filename}")
             html = page.content()
             filename_html = f"screenshots/{item.name}_{timestamp}.html"
             with open(filename_html, "w", encoding="utf8") as f:
                 f.write(html)
-            print(f"\nScreenshot html saved: {filename_html}")
+            print(f"## Screenshot html saved: {filename_html}")
