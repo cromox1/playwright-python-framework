@@ -27,7 +27,7 @@ The framework was developed as part of my continuous learning to strengthen my P
 ## Project Structure
 
 ```text
-playwright-python-framework/
+Playwright_Python3_QA1/
 │
 ├── .github/
 │   └── workflows/
@@ -149,7 +149,7 @@ These artefacts make debugging much easier.
 ### Clone the repository
 
 ```bash
-git clone https://github.com/cromox1/playwright-python-framework.git
+git clone https://github.com/cromox1/Playwright_Python3_QA1.git
 ```
 
 ---
