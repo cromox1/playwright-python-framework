@@ -1,4 +1,4 @@
-# Playwright Python Automation Framework
+# Playwright Python QA Automation Framework
 
 A lightweight, enterprise-style test automation framework built with **Playwright**, **Python**, and **PyTest**.
 
@@ -12,12 +12,15 @@ The framework was developed as part of my continuous learning to strengthen my P
 
 - Playwright with Python
 - PyTest test framework
+- UI test automation
+- REST API test automation
 - Page Object Model (POM)
 - Data-driven testing using JSON
 - Automatic screenshots on test failure
 - Video recording
 - Playwright Trace Viewer support
 - HTML test reporting
+- Flask-based System Under Test (SUT)
 - Logging
 - GitHub Actions CI/CD
 - Easy to extend and maintain

@@ -3,9 +3,24 @@
         "username": "cromox1",
         "password": "Password123"
     },
-
     "invalid_user": {
         "username": "wronguser",
         "password": "wrongpassword"
+    },
+    "verylong_user": {
+        "username": "wronguserthequickbrownfoxjumpsoverthelazydogsqwertyuiop",
+        "password": "Password123"
+    },
+    "verylong_pswd": {
+        "username": "cromox2",
+        "password": "wronguserthequickbrownfoxjumpsoverthelazydogsqwertyuiop"
+    },
+    "tooshort_user": {
+        "username": "cr",
+        "password": "Password123"
+    },
+    "tooshort_pswd": {
+        "username": "cromox2",
+        "password": "Pa"
     }
 }

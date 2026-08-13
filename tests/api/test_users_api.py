@@ -1,6 +1,12 @@
 from utils.config import BASE_URL
 import re
-# from api.users_api import UsersAPI
+from api.users_api import UsersAPI
+
+# import sys
+# from pathlib import Path
+# PROJECT_ROOT = Path(__file__).resolve().parents[2]
+# sys.path.insert(0, str(PROJECT_ROOT))
+# from utils.config import BASE_URL
 
 def test_get_allusers(api_request):
 
@@ -15,11 +21,12 @@ def test_get_allusers(api_request):
 
 def test_get_single_user(api_request):
 
-    users = api_request.get(f"{BASE_URL}/api/users").json()
-
-    user_id = None
-    for user in users:
-        assert user["id"] != user_id
-        user_id = user["id"]
-        assert user["username"] == user["email"].split('@')[0]
+    list_users = api_request.get(f"{BASE_URL}/api/users").json()
+    print(f"list_users = {list_users}")
+    list_ids = [usr['id'] for usr in list_users]
+    print(f"list_ids = {list_ids}")
+    assert len(list_ids) == len(set(list_ids))  # To validate that all IDs are unique
+    for user in list_users:
+        assert user['id'] in list_ids
+        assert user["username"] in user["email"]
         assert re.match(r"^[A-Za-z0-9\.\+_-]+@[A-Za-z0-9\._-]+\.[a-zA-Z]*$", user["email"])

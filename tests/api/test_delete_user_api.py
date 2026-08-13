@@ -1,6 +1,6 @@
 from utils.config import BASE_URL
 from utils.test_data import TEST_FIRSTNAME
-from test_create_user_api import create_user
+from api.users_api import UsersAPI
 
 def list_user_todelete(api_request, firstname):
     users = api_request.get(f"{BASE_URL}/api/users").json()
@@ -11,7 +11,7 @@ def test_delete_user(api_request):
     users_todelete = list_user_todelete(api_request, TEST_FIRSTNAME)
 
     if len(users_todelete) == 0:
-        create_user(api_request, TEST_FIRSTNAME)
+        UsersAPI.create_testuser(api_request, TEST_FIRSTNAME)
         users_todelete = list_user_todelete(api_request, TEST_FIRSTNAME)
 
     for user_id in users_todelete:
