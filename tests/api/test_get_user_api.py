@@ -6,10 +6,9 @@ def test_get_allusers(api_request):
     allusers = api_request.get(f"{BASE_URL}/api/users")
     assert allusers.status == 200
     assert allusers.status_text == 'OK'
-    return allusers.json()
 
-def test_get_user(api_request):
-    data_all = test_get_allusers(api_request)
+def test_get_user_1by1(api_request):
+    data_all = api_request.get(f"{BASE_URL}/api/users").json()
     list_ids = [d['id'] for d in data_all]
     for id in list_ids:
         response = api_request.get(f"{BASE_URL}/api/users/{id}")
