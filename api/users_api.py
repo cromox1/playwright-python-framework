@@ -1,6 +1,6 @@
 from datetime import datetime
 from utils.config import BASE_URL
-from utils.test_data import TEST_FIRSTNAME
+# from utils.test_data import TEST_FIRSTNAME
 
 
 class UsersAPI:
@@ -11,15 +11,24 @@ class UsersAPI:
     def get_user(self, user_id):
         return self.request.get(f"{BASE_URL}/api/users/{user_id}")
 
-    def create_user(self, body):
-        return self.request.post(f"{BASE_URL}/api/users", data=body)
+    def delete_user(self, user_id):
+        return self.request.delete(f"{BASE_URL}/api/users/{user_id}")
 
-    def create_testuser(api_request, firstname):
+    def get_allusers(self):
+        return self.request.get(f"{BASE_URL}/api/users")
+
+    def create_user(self, data):
+        return self.request.post(f"{BASE_URL}/api/users", data=data)
+    
+    def login_user(self, username, password):
+        return self.request.post(f"{BASE_URL}/api/login", data={"username": username, "password": password})
+
+    def create_testuser(self, firstname):
         timestamp = datetime.now().strftime("%H%M%S")
         testuser = firstname + '_' + timestamp
 
-        return api_request.post(
+        return self.request.post(
             f"{BASE_URL}/api/users",
-            data={"username": f"{testuser}", "password": "Password123",
+            data={"username": testuser, "password": "Password123",
                   "email": f"{testuser}@rosli-laptop.com.my"}
         ), testuser

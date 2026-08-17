@@ -14,3 +14,11 @@ def get_user(user_type):
         user['username'],
         user['password']
     )
+
+def get_user_all():
+    file_path = Path(__file__).parent.parent / "data" / "users.json"
+
+    with open(file_path, "r") as file:
+        users = json.load(file)
+
+    return users

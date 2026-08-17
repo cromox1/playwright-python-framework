@@ -3,6 +3,14 @@
         "username": "cromox1",
         "password": "Password123"
     },
+    "integers_user": {
+        "username": "1234",
+        "password": "Password123"
+    },
+    "integers_pswd": {
+        "username": "cromox2",
+        "password": "1234"
+    },
     "invalid_user": {
         "username": "wronguser",
         "password": "wrongpassword"
@@ -12,7 +20,7 @@
         "password": "Password123"
     },
     "verylong_pswd": {
-        "username": "cromox2",
+        "username": "cromox3",
         "password": "wronguserthequickbrownfoxjumpsoverthelazydogsqwertyuiop"
     },
     "tooshort_user": {
@@ -20,7 +28,23 @@
         "password": "Password123"
     },
     "tooshort_pswd": {
-        "username": "cromox2",
+        "username": "cromox4",
         "password": "Pa"
+    },
+    "onechar_user": {
+        "username": "c",
+        "password": "Password123"
+    },
+    "onechar_pswd": {
+        "username": "cromox5",
+        "password": "p"
+    },
+    "blank_user": {
+        "username": " ",
+        "password": "Password123"
+    },
+    "blank_pswd": {
+        "username": "cromox6",
+        "password": " "
     }
 }

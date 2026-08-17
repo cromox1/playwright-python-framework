@@ -2,6 +2,7 @@ import os
 import pytest
 from playwright.sync_api import sync_playwright
 from datetime import datetime
+from api.users_api import UsersAPI
 
 
 @pytest.fixture
@@ -13,13 +14,20 @@ def api_request():
 
 
 @pytest.fixture
+def users_api(api_request):
+    return UsersAPI(api_request)
+
+
+@pytest.fixture
 def page(request):
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         context = browser.new_context(record_video_dir="videos/")
         context.tracing.start(screenshots=True, snapshots=True, sources=True)
         page = context.new_page()
+        
         yield page
+        
         # Save the trace
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         trace_name = f"traces/{request.node.name}_{timestamp}.zip"
@@ -37,6 +45,7 @@ def page(request):
         # Remove video if NOT Failed
         if video and not request.node.rep_call.failed:
             video.delete()
+            print(f"## Video NOT saved")
         elif video and request.node.rep_call.failed:
             old_path = video.path()
             new_name = f"{request.node.name}_{timestamp}.webm"
